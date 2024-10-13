@@ -1,0 +1,188 @@
+Cer corectare manuala
+task 1 Markov-is-coming
+parse_labyrinth
+
+Funcția parse_labyrinth primește ca parametru o cale relativă către un fișier text care conține reprezentarea codificată a unui labirint. Functia deschide fisierul si citeste cu fscanf parametrii matricei si matricea in sine.
+Intrare:
+
+**file_path: un șir de caractere care conține calea relativă către fișierul text.
+Ieșire:
+** Labyrinth: o matrice care reprezintă labirintul.
+
+get_adjacency_matrix
+
+Funcția get_adjacency_matrix primește ca parametru o matrice care reprezintă labirintul și întoarce matricea de adiacență a grafului / lanțului Markov corespunzător labirintului. Matricea de adiacenta eete constituita din m*n stari ale matricei labirint si 2 stari Win Lose. Aceasta matrice este formata din 1(daca exista o tranzitie din starea i in starea j) si 0(daca nu extista)
+Intrare:
+
+**Labyrinth: o matrice care reprezintă labirintul.
+Ieșire:
+** Adj: o matrice care reprezintă matricea de adiacență a grafului / lanțului Markov corespunzător labirintului.
+
+ get_link_matrix
+
+Funcția get_link_matrix primește ca parametru o matrice care reprezintă labirintul și întoarce matricea legăturilor corespunzătoare labirintului. Se face suma pe fiecare linie a matricei, iar fiecare element la liniei respective este impartit la acea suma.
+Intrare:
+
+**Labyrinth: o matrice care reprezintă labirintul.
+Ieșire:
+** Link: o matrice care reprezintă matricea legăturilor corespunzătoare labirintului.
+
+get_Jacobi_parameters
+Funcția get_Jacobi_parameters primește ca parametru o matrice de legături corespunzătoare unui labirint și întoarce matricea de iterare și vectorul de iterare necesare pentru metoda Jacobi. Matricea de interare este construita din matricea de legatura pastrand doar partea specifica starilor din labirint, in timp ce vectorul de interare este format din coloana specifica starii Win.
+Intrare:
+
+**Link: o matrice care reprezintă matricea legăturilor corespunzătoare unui labirint.
+Ieșire:
+** G: o matrice pătratică care reprezintă matricea de iterare a metodei Jacobi, construită în funcție de matricea de legături.
+** c: un vector coloană care reprezintă vectorul de iterare a metodei Jacobi, construit în funcție de matricea de legături.
+
+perform_iterative
+Funcția perform_iterative primește ca parametri o matrice de iterare, un vector de iterare, o aproximație inițială a soluției, o toleranță și un număr maxim de pași, și returnează soluția sistemului, eroarea relativă și numărul de pași efectuați. Rezultatul este optinut prin aplicarea algoritmului Iacobi din laborator.
+Intrare:
+
+**G: o matrice de iterare, obținută prin apelul funcției get_Jacobi_parameters, de exemplu.
+** c: un vector coloană de iterare, obținut prin apelul funcției get_Jacobi_parameters, de exemplu.
+**x0: o aproximare inițială a soluției sistemului.
+** tol: o valoare ce reprezintă toleranța maximă acceptată pentru eroarea relativă dintre două iterații consecutive ale metodei iterative.
+**max_steps: un număr maximal de iterații care poate fi efectuat.
+Ieșire:
+** x: soluția sistemului, calculată prin metoda iterativă.
+**err: eroarea relativă dintre două iterații consecutive ale metodei iterative.
+** steps: numărul de pași efectuați de metoda iterativă.
+
+heuristic_greedy
+
+Funcția heuristic_greedy primește o poziție de start, un vector de probabilități extinse și o matrice de adiacență a unui lanț Markov. Aceasta returnează o cale validă către starea de WIN. Pleacand de la pozitia de start care este adugata in path se cauta pe linia corespunzatoare starea cu probabilitatea cea mai mare de win. Aceata este adaugata in path si algoritmul se repeta.
+Intrare:
+
+**start_position: indexul stării de start (număr întreg)
+** probabilities: vectorul extins al probabilităților, incluzând cele două probabilități pentru stările WIN și LOSE (vector)
+**Adj: matricea de adiacență a lanțului Markov (matrice)
+Ieșire:
+** path: calea validă către starea de WIN
+
+decode_path
+
+Scopul functiei "decode_path" este de a decoda o cale valida dintr-un labirint si de a returna un vector de perechi care reprezinta pozitiile celulelor din calea data, unde fiecare pereche contine linia si coloana celulei.
+Intrare:
+
+**path: un vector coloana care reprezinta calea valida din labirint
+** lines: numarul de linii din labirint
+**cols: numarul de coloane din labirint
+Iesire:
+** decoded_path: o matrice cu doua coloane, care reprezinta pozitiile celulelor din calea data, unde fiecare pereche contine linia si coloana celulei.
+
+task2-Linear_regression
+parse_data_set_file
+
+Scopul functiei "parse_data_set_file" este de a citi un fisier cu date de intrare ce contine dimensiunile unei matrici si matricea in sine si de a le procesa pentru a le returna ca o matrice de celule.
+Intrare:
+
+** file_path: un string care reprezinta calea relativa catre fisierul de intrare
+
+Iesire:
+
+**Y: un vector coloana care reprezinta setul de date de iesire
+** InitialMatrix: o matrice de celule care contine setul de date de intrare si de iesire, cu tipuri de date mixte
+
+prepare_for_regression
+Functia "prepare_for_regression" pregateste matricea de date initiale astfel incat sa contina doar tipuri numerice, prin inlocuirea valorilor de tip cell cu valorile numerice corespunzatoare. De asemenea, functia descompune valorile "semi-furnished", "unfurnished" si "furnished" in doua coloane cu valori numerice 0 si 1, pentru a putea fi utilizate intr-un model de regresie.
+Intrare:
+**InitialMatrix: o matrice care contine atat tipuri numerice, cat si string-uri reprezentand valorile "yes", "no", "semi-furnished", "unfurnished" si "furnished"
+Iesire:
+** FeatureMatrix: o matrice care contine doar tipuri numerice, obtinuta prin inlocuirea valorilor textuale cu valorile numerice corespunzatoare. De asemenea, matricea FeatureMatrix contine o coloana suplimentara fata de matricea initiala, corespunzatoare noii valori introduse.
+
+linear_regression_cost_function
+Scopul functiei "linear_regression_cost_function" este de a implementa functia de cost pentru regresia liniara, utilizand vectorul de coeficienti theta, matricea FeatureMatrix si vectorul de valori Y.
+
+Intrari:
+
+**Theta: un vector coloana format din coeficientii theta1, ..., thetan ai modelului de regresie liniara
+Y: un vector coloana ce contine valorile reale (iesirile) pentru datele de intrare din matricea FeatureMatrix
+**FeatureMatrix: o matrice ce contine valorile predictoriilor (intrarile) pentru modelele de regresie liniara
+Iesiri:
+
+**Error: valoarea functiei de cost pentru regresia liniara, calculata folosind Theta, Y si FeatureMatrix.
+Dimensiunile argumentelor trebuie sa fie compatibile pentru a putea calcula functia de cost.
+
+parse_csv_file
+Funcția parse_csv_file primește ca argument calea către un fișier .csv și returnează matricea de date inițiale InitialMatrix și vectorul de ieșire Y.
+
+Pentru a deschide fișierul, se folosește funcția fopen cu modul de citire 'r'. Se parcurge primul rând al fișierului pentru a calcula numărul de coloane n prin numărarea virgulelor. Pentru a calcula numărul de rânduri m, se parcurge fișierul linie cu linie până la finalul fișierului (feof).
+
+Se inițializează matricea InitialMatrix și vectorul Y cu valorile necesare (zero-uri sau o matrice de celule goale). Se parcurg liniile fișierului și se adaugă valorile în matricea InitialMatrix și vectorul Y în funcție de poziția lor în linie. Dacă o valoare nu este un număr, se adaugă ca un șir de caractere în matricea InitialMatrix.
+
+La final, fișierul este închis cu fclose.
+
+lassi_regression_cost_function
+
+Funcția lassi_regression_cost_function calculează valoarea funcției de cost pentru regresia lasso, adică costul funcției lasso pentru un set de date și o anumită valoare a lui lambda.
+
+Intrare:
+
+Theta: vectorul de coeficienți ai modelului de regresie.
+Y: vectorul de valori adevărate.
+FeatureMatrix: matricea de caracteristici.
+lambda: un parametru care controlează puterea regularizării.
+Ieșire:
+
+Error: valoarea funcției de cost.
+În primul rând, funcția elimină primul element al lui Theta, pentru a nu regulariza termenul constant.
+
+Apoi, se calculează H, o matrice mx1 de estimări pentru Y. Pentru fiecare linie a lui FeatureMatrix, se calculează un produs scalar între aceasta și vectorul de coeficienți Theta fără primul element, și se adaugă rezultatul în matricea H.
+
+Se calculează Sum1, suma pătratelor diferenței dintre estimările H și valorile adevărate Y.
+
+Se calculează Sum2, suma valorilor absolute ale coeficienților din Theta.
+
+În final, se calculează valoarea funcției de cost ca o combinație între costul inițial și termenul de regularizare. Costul inițial este media aritmetică a erorilor pătratelor, împărțită la 2. Acest termen indică cât de bine modelează setul de date curent valoarea dorită. Termenul de regularizare penalizează coeficienții cu valori prea mari, pentru a evita overfitting-ul. Valoarea lui lambda controlează cât de puternic se va face această penalizare.
+
+ridge_regression_cost_function
+
+Funcția ridge_regression_cost_function calculează costul modelului de regresie liniară cu regularizare Ridge (L2). Costul este determinat prin compararea valorilor prezise de model cu valorile reale și adăugarea termenului de regularizare L2, dat de produsul dintre coeficienții modelului ridicați la pătrat și constanta lambda.
+
+Intrare:
+
+**Theta: vectorul de coeficienți ai modelului
+**Y: vectorul cu valorile reale
+**FeatureMatrix: matricea cu datele de intrare
+**lambda: constanta de regularizare
+
+Iesire:
+
+**Error, care reprezintă valoarea costului pentru modelul de regresie ridge, dat de parametrii Theta și lambda
+În primul rând, primul element al vectorului Theta este eliminat, deoarece acesta este asociat constantei de interceptare și nu este inclus în termenul de regularizare.
+
+Apoi, matricea H este inițializată cu dimensiunea m și fiecare element al ei este calculat prin înmulțirea vectorului de coeficienți cu vectorul de caracteristici corespunzător din matricea de intrare.
+
+Suma patratelor diferenței dintre valorile prezise și cele reale este calculată și stocată în variabila Sum1. De asemenea, suma pătratelor coeficienților modelului este calculată și stocată în variabila Sum2.
+
+În cele din urmă, valoarea costului este calculată prin adăugarea sumei erorilor la termenul de regularizare L2, care este dat de produsul dintre suma pătratelor coeficienților și constanta lambda.
+
+Task 3-MNIST-101
+
+split_dataset
+
+Funcția "split_dataset" este folosită pentru a împărți un set de date într-un set de antrenare și un set de testare, pentru a putea evalua performanța unui model de machine learning. Funcția primește ca argumente matricea de intrare "X", vectorul de ieșire "y" și un procentaj care specifică cât din setul inițial va fi alocat setului de antrenare.
+
+În primul pas, funcția amestecă aleator elementele setului inițial folosind funcția "randperm". Apoi, numărul de exemple pentru setul de antrenare este calculat ca fiind procentajul specificat din dimensiunea inițială a matricei "X". Setul de antrenare este format din primele "num_train_examples" exemple ale setului amestecat, în timp ce setul de testare este format din restul exemplelor.
+
+Funcția returnează patru variabile: "x_train" și "y_train" reprezintă setul de antrenare format din exemplele alese, respectiv etichetele aferente, în timp ce "X_test" și "y_test" reprezintă setul de testare.
+
+cost_function
+
+Funcția cost_function este utilizată în algoritmul de învățare a rețelelor neuronale, pentru a calcula funcția cost și gradientul în funcție de setul de antrenare, parametrii modelului și factorul de regularizare.
+
+Parametrii de intrare ai funcției sunt:
+
+params: vectorul care conține parametrii modelului într-o formă rulată (un vector coloană)
+X: matricea caracteristicilor care conține exemplele de antrenare
+y: un vector care conține etichetele (de la 1 la 10) pentru fiecare exemplu de antrenare
+lambda: constanta/parametrul de regularizare
+input_layer_size: dimensiunea stratului de intrare
+hidden_layer_size: dimensiunea stratului ascuns
+output_layer_size: dimensiunea stratului de ieșire
+Parametrii de ieșire ai funcției sunt:
+
+J: valoarea funcției cost pentru parametrii actuali
+grad: un vector coloană cu aceeași lungime ca și params, care conține gradientul pentru fiecare parametru
